@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+<!-- Font Awesome 6 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+	integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title th:text="${title} ?: 'Smart Contact Manager'">Smart
+	Contact Manager</title>
+</head>
+<body>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" th:href="@{/}">Smart Contact Manager</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span><i class="fa-solid fa-bars"></i></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto text-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/home}">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item"><a class="nav-link"><span
+						th:text="${user.name}">User</span></a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- Sidebar -->
+	<div class="sidebar mt-2" id="sidebar">
+		<span onclick="toggleSidebar()" class="crossBtn">&times;</span> <a
+			th:href="@{/user/index}" class="item"><i
+			class="fa-solid fa-house"></i> Home</a> <a
+			th:href="@{/user/show-contacts/0}" class="item"><i
+			class="fa-solid fa-address-book"></i> View Contacts</a> <a
+			th:href="@{/user/add-contact}" class="item"><i
+			class="fa-solid fa-pencil"></i> Add Contact</a> <a href="#" th:href="@{/user/profile}"  class="item"><i
+			class="fa-solid fa-circle-user"></i> Your Profile</a> <a href="#"
+			class="item"><i class="fa-solid fa-gear"></i> Settings</a> <a
+			th:href="@{/logout}" class="item"><i
+			class="fa-solid fa-right-from-bracket"></i> Logout</a>
+		<div class="divider"></div>
+	</div>
+	<!-- End sidebar -->
+	<!-- Content Area -->
+	<div class="container mt-1 mr-1">
+		<!-- Toggle Sidebar Icon -->
+		<i onclick="toggleSidebar()" class="fas fa-bars mr-2 "></i>
+		<!-- Dynamic Content -->
+		<div th:insert="${content}"></div>
+	
+	</div>
+
+
+	<!-- Message Box -->
+	<div class="container text-center mt-2" th:if="${session.message}">
+		<div th:class="'alert alert-' + ${session.message.type}" role="alert">
+			<span th:text="${session.message.content}"></span>
+		</div>
+		<th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+	</div>
+
+
+
+	<!-- Scripts -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+    function toggleSidebar() {
+        let sidebar = document.getElementById("sidebar");
+        let content = document.querySelector(".content");
+
+        sidebar.classList.toggle("sidebar-collapsed");
+        content.classList.toggle("full");
+    }
+</script>
+	
+	<script>
+	 function deleteContact(cid){
+		 swal({
+			  title: "Are you sure?",
+			  text: "You want to delete this contact...!",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+            	
+			  if (willDelete) {
+				  window.location="/user/delete/"+cid;
+			 
+			  } else {
+			    swal("Your contact is safe!");
+			  }
+			});
+	 }
+	
+	</script>
+
+
+</body>
+</html>
+

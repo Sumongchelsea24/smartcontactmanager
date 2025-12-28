@@ -1,0 +1,46 @@
+<!-- src/main/resources/templates/login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Login</title>
+
+        
+</head>
+<body th:replace="base :: layout(~{::section})" class="login-page">
+	<section>
+
+		<div class="wrapper text-center mt-3">
+		
+					<form action="#" th:action="@{/login}" method="post">
+						<h2>Login</h2>
+						<div class="input-field">
+							<input type="text" name="username" id="username" required>
+							<label for="username">Enter User Name</label>
+						</div>
+						<div class="input-field">
+							<input type="password" name="password" required> <label for="password">Enter
+								your password</label>
+						</div>
+						<div class="forget">
+							<label for="remember"> <input type="checkbox"
+								id="remember">
+								<p>Remember me</p>
+							</label> <a href="#">Forgot password?</a>
+						</div>
+						<button type="submit" >Log In</button>
+						<div class="register">
+							<p>
+								Don't have an account? <a href="/signup">Register</a>
+							</p>
+						</div>
+					</form>
+					<p th:if="${param.error}" style="color:red;">Invalid username or password</p>
+					<p th:if="${param.logout}" style="color:green;">You have been logged out</p>
+				</div>
+			
+
+
+	</section>
+
+</body>
+</html>
